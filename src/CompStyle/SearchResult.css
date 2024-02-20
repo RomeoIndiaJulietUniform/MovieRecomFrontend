@@ -1,0 +1,64 @@
+/* Common styles for all sizes */
+.searchResultContainer ul {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 26px;
+  list-style: none;
+  padding: 0;
+}
+
+.searchResultContainer {
+  color: white;
+}
+
+.searchResultContainer h2 {
+  color: white;
+}
+
+.searchResultContainer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.searchResultContainer li {
+  margin-bottom: 20px;
+}
+
+
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 1200px) {
+  .searchResultContainer ul {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .searchResultContainer ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .searchResultContainer ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .searchResultContainer img {
+    width: 100%; /* Make images responsive */
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .searchResultContainer ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .searchResultContainer img {
+    width: 100%; /* Make images responsive */
+    height: auto;
+  }
+}

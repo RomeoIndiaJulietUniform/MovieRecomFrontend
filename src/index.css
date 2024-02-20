@@ -1,0 +1,42 @@
+:root {
+  --background-image: url('./Images/Desktop.jpg');
+}
+
+body {
+  background-image: var(--background-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+
+.hotfix {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+/* Media queries for responsiveness */
+
+/* Small screens (phones) */
+@media only screen and (max-width: 600px) {
+  body {
+    background-size: cover; 
+  }
+}
+
+/* Medium screens (tablets) */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  /* Add specific styles for medium-sized screens here if needed */
+}
+
+/* Large screens (desktops) */
+@media only screen and (min-width: 1025px) {
+  /* Add specific styles for large screens here if needed */
+}
+
