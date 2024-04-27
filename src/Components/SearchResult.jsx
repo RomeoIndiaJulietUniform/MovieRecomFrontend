@@ -1,65 +1,113 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import "../CompStyle/SearchResult.css"
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import "../CompStyle/SearchResult.css";
 
 const SearchResult = ({ recommendedMovies }) => {
-  const [moviePosters, setMoviePosters] = useState([]);
+  const [movieDetails, setMovieDetails] = useState([]);
+  const [selectedTrailer, setSelectedTrailer] = useState(null);
 
   useEffect(() => {
-    const fetchMoviePosters = async () => {
+    const fetchMovieDetails = async () => {
       try {
-        const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-        const baseURL = 'https://api.themoviedb.org/3';
-        
-        const posterRequests = recommendedMovies.movies.map(async (movieTitle) => {
+        const tmdbApiKey = import.meta.env.VITE_TMDB_API_KEY;
+        const tmdbBaseURL = 'https://api.themoviedb.org/3';
+        const youtubeApiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+        const youtubeBaseURL = 'https://www.googleapis.com/youtube/v3';
+
+        const movieDetailsRequests = recommendedMovies.movies.map(async (movieTitle) => {
           const encodedTitle = encodeURIComponent(movieTitle);
           const searchResponse = await axios.get(
-            `${baseURL}/search/movie?api_key=${apiKey}&query=${encodedTitle}`
+            `${tmdbBaseURL}/search/movie?api_key=${tmdbApiKey}&query=${encodedTitle}`
           );
 
-          // Assuming you want to get the first result
           const firstResult = searchResponse.data.results[0];
 
           if (firstResult) {
             const movieDetailsResponse = await axios.get(
-              `${baseURL}/movie/${firstResult.id}?api_key=${apiKey}`
+              `${tmdbBaseURL}/movie/${firstResult.id}?api_key=${tmdbApiKey}&append_to_response=videos`
             );
 
-            return movieDetailsResponse.data.poster_path;
+            const trailerKey = movieDetailsResponse.data.videos.results.find(video => video.type === 'Trailer')?.key;
+
+            if (trailerKey) {
+              const youtubeSearchResponse = await axios.get(
+                `${youtubeBaseURL}/search?part=snippet&maxResults=1&q=${movieTitle} trailer&type=video&key=${youtubeApiKey}`
+              );
+
+              const trailerVideoId = youtubeSearchResponse.data.items[0].id.videoId;
+
+              movieDetailsResponse.data.trailerInfo = {
+                resourceId: { videoId: trailerVideoId },
+                title: movieTitle + " Trailer"
+              };
+            }
+
+            return movieDetailsResponse.data;
           }
 
           return null;
         });
 
-        const posters = await Promise.all(posterRequests);
-        setMoviePosters(posters);
+        const details = await Promise.all(movieDetailsRequests);
+        setMovieDetails(details);
       } catch (error) {
-        console.error('Error fetching movie posters:', error);
+        console.error('Error fetching movie details:', error);
       }
     };
 
-    fetchMoviePosters();
+    fetchMovieDetails();
   }, [recommendedMovies]);
+
+  const handleMovieCardClick = (trailerKey) => {
+    if (trailerKey) {
+      setSelectedTrailer(trailerKey);
+    } else {
+      console.warn('Trailer key is undefined');
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedTrailer(null);
+  };
 
   return (
     <div className="searchResultContainer">
       <h2>Recommended Movies:</h2>
       <ul>
-        {recommendedMovies.movies.map((movieTitle, index) => (
+        {movieDetails.map((movie, index) => (
           <li key={index}>
-            <div>
-              <h3>{movieTitle}</h3>
-              {moviePosters[index] && (
+            <div onClick={() => handleMovieCardClick(movie.trailerInfo?.resourceId?.videoId)}>
+              <h3>{movie.title}</h3>
+              {movie.poster_path && (
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${moviePosters[index]}`}
-                  alt={`${movieTitle} Poster`}
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={`${movie.title} Poster`}
                 />
               )}
             </div>
           </li>
         ))}
       </ul>
+      {selectedTrailer && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>
+              <FontAwesomeIcon icon={faTimes} className="close-icon" />
+            </span>
+            <iframe
+              width="790"
+              height="600"
+              src={`https://www.youtube.com/embed/${selectedTrailer}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
