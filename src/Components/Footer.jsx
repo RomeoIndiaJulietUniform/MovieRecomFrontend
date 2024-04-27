@@ -39,7 +39,7 @@ const Footer = () => {
                   <FontAwesomeIcon icon={faLinkedin} />
               </a>
               <a
-                  href="mailto:contact.rijumondal@gmail.com"
+                  href="mailto:mailrijumondal@gmail.com"
                   target="_blank"
                   className="item5"
               >
