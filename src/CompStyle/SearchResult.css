@@ -12,7 +12,6 @@
   color: black;
 }
 
-
 .searchResultContainer {
   color: white;
 }
@@ -28,6 +27,10 @@
 
 .searchResultContainer li {
   margin-bottom: 20px;
+}
+
+.searchResultContainer li img {
+  cursor: pointer; 
 }
 
 /* Styles for the modal */
@@ -56,13 +59,25 @@
   max-height: 600px;
 }
 
-
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
+
+.searchResultContainer li {
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchResultContainer li:hover {
+  transform: translateY(-10px) scale(1.1); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
+}
+
+
+
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 1200px) {
@@ -75,6 +90,20 @@
   .searchResultContainer ul {
     grid-template-columns: repeat(4, 1fr);
   }
+  
+  .modal-content {
+    width: 80%;
+    max-width: 600px;
+    max-height: 500px;
+  }
+   
+
+  iframe {
+    width: 100%;
+    height: 500px; 
+  }
+
+  
 }
 
 @media screen and (max-width: 768px) {
@@ -86,6 +115,18 @@
     width: 100%; /* Make images responsive */
     height: auto;
   }
+
+  .modal-content {
+    width: 90%;
+    max-width: 500px;
+    max-height: 400px;
+  }
+
+
+  iframe {
+    width: 100%;
+    height: 400px; 
+  }
 }
 
 @media screen and (max-width: 576px) {
@@ -96,5 +137,17 @@
   .searchResultContainer img {
     width: 100%; /* Make images responsive */
     height: auto;
+  }
+  
+  .modal-content {
+    width: 95%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+
+  iframe {
+    width: 100%;
+    height: 300px;
   }
 }
