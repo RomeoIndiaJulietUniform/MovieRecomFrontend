@@ -11,7 +11,6 @@ import NewsCrawl from './Components/NewsCrawl.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <div className='hotfix'>
-      <NewsCrawl/>
     <SearchBar/>
     <Footer/>
     </div>
