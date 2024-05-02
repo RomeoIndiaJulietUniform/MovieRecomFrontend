@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import "../CompStyle/SearchResult.css";
+import {FaSync } from 'react-icons/fa';
 
 const SearchResult = ({ recommendedMovies }) => {
   const [movieDetails, setMovieDetails] = useState([]);

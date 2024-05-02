@@ -19,8 +19,8 @@ const PrivacyModal = (props) => {
     
 
     <h2>Problem-solving (CP):</h2>
-    <p>370+ Leetcode problems solved with a current contest rating of 1553 </p>
-    <p>Current rating of 1169(Newbie)</p>
+    <p>380+ Leetcode problems solved with a current contest rating of 1553 </p>
+    <p>Current rating of 1299(Pupil)</p>
     </p>
     );
     return (

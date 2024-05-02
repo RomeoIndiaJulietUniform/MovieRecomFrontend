@@ -1,16 +1,37 @@
-/* Default styles for larger screens */
+.note{
+  color: white;
+  font-size: 2rem;
+  margin-top: 10px;
+  display: inline;
+  white-space: nowrap;
+}
+
+
 .searchContainer {
-  padding-top: 10vh;
-  width: 40%;
+  position: fixed;
+  width: 400px;
+  top: 40%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  padding-top: 5vh; 
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 3; 
 }
+
+.binder{
+  position: absolute;
+  margin-top: 110%;
+}
+
 
 .bar {
   background-color: white;
-  width: 100%;
+  overflow: hidden;
+  width: 400px;
   border-radius: 10px;
   height: 40px;
   padding: 0 15px;
@@ -19,6 +40,48 @@
   flex-direction: row;
   align-items: center;
   gap: 25px;
+  position: relative;
+}
+
+.newsScroll {
+  width: auto;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  animation: scroll-left 1000s linear infinite; 
+}
+
+.newsScroll img {
+  height: 340px;
+  min-width: 250px;
+  margin-right: 10px;
+  transition: transform 0.5s ease;
+}
+
+.top {
+  margin-bottom: 40px;
+}
+
+.bottom {
+  margin-top: 40px;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 input {
@@ -32,9 +95,12 @@ input {
 }
 
 .results {
-  position: absolute;
-  margin-top: 40px;
-  z-index: 2;
+  position: relative; /* Change from fixed to absolute */
+  top: 100%; /* Position it below the search container */
+  width: 100%;
+  background-color: white;
+  z-index: 4; /* Ensure search results are above everything else */
+  margin-top: calc(var(--search-bar-height, 0px) + 10px); /* Dynamic margin based on search bar height */
 }
 
 .posters {
@@ -90,7 +156,6 @@ button:hover {
   .results li {
     font-size: 1rem;
   }
-
 }
 
 /* Media query for screens with a width of 576px or lower */
@@ -115,4 +180,18 @@ button:hover {
   .results li {
     font-size: 0.7rem; /* Adjust font-size for smaller screens */
   }
+
+  .binder{
+    position: absolute;
+    margin-top: 100%;
+  }
+
+  .bar{
+    width:300px;
+  }
+  
+  .results{
+    width: 300px;
+  }
+
 }
